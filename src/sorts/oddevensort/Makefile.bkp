@@ -189,7 +189,7 @@ LIBRARIES :=
 SAMPLE_ENABLED := 1
 
 # Gencode arguments
-SMS ?= 35 37 50 52
+SMS ?= 20 30 35 37 50 52
 
 ifeq ($(SMS),)
 $(info >>> WARNING - no SM architectures have been specified - waiving sample <<<)
@@ -207,20 +207,16 @@ GENCODE_FLAGS += -gencode arch=compute_$(HIGHEST_SM),code=compute_$(HIGHEST_SM)
 endif
 endif
 
-ALL_CCFLAGS += -dc
-
-LIBRARIES += -lcudadevrt
-
 ifeq ($(SAMPLE_ENABLED),0)
 EXEC ?= @echo "[@]"
 endif
 
 ################################################################################
-TIME=1
+
 # Target rules
 all: build
 
-build: quicksort
+build: sortingNetworks
 
 check.deps:
 ifeq ($(SAMPLE_ENABLED),0)
@@ -229,22 +225,28 @@ else
 	@echo "Sample is ready - all dependencies have been met"
 endif
 
-cdpAdvancedQuicksort.o:cdpAdvancedQuicksort.cu
-	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -DELAPSED_TIME=$(TIME) -o $@ -c $<
-
-cdpBitonicSort.o:cdpBitonicSort.cu
+bitonicSort.o:bitonicSort.cu
 	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
 
-quicksort: cdpAdvancedQuicksort.o cdpBitonicSort.o
+main.o:main.cpp
+	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
+
+oddEvenMergeSort.o:oddEvenMergeSort.cu
+	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
+
+sortingNetworks_validate.o:sortingNetworks_validate.cpp
+	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
+
+sortingNetworks: bitonicSort.o main.o oddEvenMergeSort.o sortingNetworks_validate.o
 	$(EXEC) $(NVCC) $(ALL_LDFLAGS) $(GENCODE_FLAGS) -o $@ $+ $(LIBRARIES)
 	$(EXEC) mkdir -p ../../bin/$(TARGET_ARCH)/$(TARGET_OS)/$(BUILD_TYPE)
 	$(EXEC) cp $@ ../../bin/$(TARGET_ARCH)/$(TARGET_OS)/$(BUILD_TYPE)
 
 run: build
-	$(EXEC) ./quicksort
+	$(EXEC) ./sortingNetworks
 
 clean:
-	rm -f quicksort cdpAdvancedQuicksort.o cdpBitonicSort.o
-	rm -rf ../../bin/$(TARGET_ARCH)/$(TARGET_OS)/$(BUILD_TYPE)/quicksort
+	rm -f sortingNetworks bitonicSort.o main.o oddEvenMergeSort.o sortingNetworks_validate.o
+	rm -rf ../../bin/$(TARGET_ARCH)/$(TARGET_OS)/$(BUILD_TYPE)/sortingNetworks
 
 clobber: clean
