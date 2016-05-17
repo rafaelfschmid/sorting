@@ -30,7 +30,7 @@
 #include <iostream>
 #include <stdio.h>
 
-#define ELAPSED_TIME 0
+//#define ELAPSED_TIME 0
 
 void cudaTest(cudaError_t error) {
 	if (error != cudaSuccess) {
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
 	cudaTest(cudaMemcpy(d_value, h_value, mem_size_vec, cudaMemcpyHostToDevice));
 
 	cudaEventRecord(start);
-    oddEvenMergeSort(d_vec_out, d_value_out, d_vec, d_value, 64, num_of_elements, 1);
+    oddEvenMergeSort(d_vec_out, d_value_out, d_vec, d_value, 1, num_of_elements, 1);
 	cudaEventRecord(stop);
 
 	cudaError_t errSync = cudaGetLastError();

@@ -216,7 +216,7 @@ EXEC ?= @echo "[@]"
 endif
 
 ################################################################################
-
+TIME=1
 # Target rules
 all: build
 
@@ -230,7 +230,7 @@ else
 endif
 
 cdpAdvancedQuicksort.o:cdpAdvancedQuicksort.cu
-	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<
+	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -DELAPSED_TIME=$(TIME) -o $@ -c $<
 
 cdpBitonicSort.o:cdpBitonicSort.cu
 	$(EXEC) $(NVCC) $(INCLUDES) $(ALL_CCFLAGS) $(GENCODE_FLAGS) -o $@ -c $<

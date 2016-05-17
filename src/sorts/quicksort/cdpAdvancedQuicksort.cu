@@ -398,7 +398,7 @@ void print(uint* host_data, uint n) {
 	std::cout << "\n";
 }
 
-#define ELAPSED_TIME 0
+//#define ELAPSED_TIME 0
 
 // Host side entry
 int main(int argc, char *argv[])

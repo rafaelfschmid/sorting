@@ -17,7 +17,7 @@
 #include <helper_cuda.h>
 #include "mergeSort_common.h"
 
-#define ELAPSED_TIME 0
+//#define ELAPSED_TIME 0
 
 void cudaTest(cudaError_t error) {
 	if (error != cudaSuccess) {

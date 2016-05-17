@@ -541,7 +541,7 @@ extern "C" void bitonicMergeElementaryIntervals(
 
 
 static uint *d_RanksA, *d_RanksB, *d_LimitsA, *d_LimitsB;
-static const uint MAX_SAMPLE_COUNT = 32768;
+static const uint MAX_SAMPLE_COUNT = 1048576;
 
 extern "C" void initMergeSort(void)
 {
