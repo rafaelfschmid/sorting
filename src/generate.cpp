@@ -3,17 +3,57 @@
 #include <math.h>
 #include <cstdlib>
 #include <stdio.h>
+#include <iostream>
+#include <vector>
 
 #ifndef EXP_BITS_SIZE
 #define EXP_BITS_SIZE 10
 #endif
 
+#ifdef RAND
 void vectors_gen(int num_elements, int bits_size_elements) {
+
 	for (int i = 0; i < num_elements; i++)
 	{
-		printf("%d ", rand() % bits_size_elements);
+		std::cout << rand() % bits_size_elements;
+		std::cout << " ";
 	}
 }
+#elif SORTASC
+void vectors_gen(int num_elements, int bits_size_elements) {
+	std::vector<int> vec;
+
+	for (int i = 0; i < num_elements; i++)
+	{
+		vec.push_back(rand() % bits_size_elements);
+	}
+
+	std::sort(vec.begin(), vec.end());
+
+	for (int i = 0; i < num_elements; i++)
+	{
+		std::cout << vec[i];
+		std::cout << " ";
+	}
+}
+#elif SORTDESC
+void vectors_gen(int num_elements, int bits_size_elements) {
+	std::vector<int> vec;
+
+	for (int i = 0; i < num_elements; i++)
+	{
+		vec.push_back(rand() % bits_size_elements);
+	}
+
+	std::sort(vec.begin(), vec.end(), std::greater<int>());
+
+	for (int i = 0; i < num_elements; i++)
+	{
+		std::cout << vec[i];
+		std::cout << " ";
+	}
+}
+#endif
 
 int main(int argc, char** argv) {
 
