@@ -1,5 +1,5 @@
 export TIME=1
-export BITS=12
+export BITS=6
 
 all: generate radixcub radixthrust mergemgpu
 
